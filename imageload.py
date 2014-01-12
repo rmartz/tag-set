@@ -1,22 +1,31 @@
 from tagsets import TagSet
-import os, sys
+from iptcinfo import IPTCInfo
+import re, os, sys
 
-def InitalizeLibrary(dir):
+def InitializeLibrary(dir):
 	library = TagSet()
 
-	files = GetFileList(dir)
+	files = GetImageList(dir)
 	for file in files:
 		AddFileToTagSet(library, file)
 	return library
 
-def GetFileList(dir):
+def GetImageList(dir):
+	p = re.compile('.*.jp[e]?g$')
+	
 	fileList = []
 	for root, subFolders, files in os.walk(dir):
 	    for file in files:
-		fileList.append(os.path.join(root,file))
+		if p.match(file):
+			fileList.append(os.path.join(root,file))
 	return fileList
 
 def AddFileToTagSet(tagset, filename):
-	pass
+	tags = GetImageIPTCKeywords(filename)
+	tagset.add(tags)
 
+def GetImageIPTCKeywords(filename):
+	info = IPTCInfo(filename)
+	if len(info.data) < 3: raise Exception(info.error)
 
+	return info.keywords

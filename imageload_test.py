@@ -1,5 +1,9 @@
 #!/opt/local/bin/python
-from imageload import GetFileList
+from imageload import GetImageList, InitializeLibrary
 from pprint import pprint
 
-pprint(GetFileList('.'))
+pprint(GetImageList('.'))
+
+library = InitializeLibrary('.')
+
+pprint(library.flatten())
