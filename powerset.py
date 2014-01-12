@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 def PowerSet(start):
 	# Copy the list before we modify it
 	arg = list(start)
