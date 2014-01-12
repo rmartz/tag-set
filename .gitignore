@@ -1,7 +1,7 @@
-*.py[cod]
+testing_dir.path
 
-# C extensions
-*.so
+*.py[cod]
+*~
 
 # Vi
 *.swp
