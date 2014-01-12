@@ -1,4 +1,4 @@
-from powerset import PowerSet, OddManOut
+from functions import PowerSet, OddManOut
 from merge import MergeDictionary
 
 class TagSet:

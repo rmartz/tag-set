@@ -1,6 +1,6 @@
 #!/opt/local/bin/python
 
-from powerset import PowerSet, OddManOut
+from functions import PowerSet, OddManOut
 from pprint import pprint
 
 pprint(PowerSet([ ]))
