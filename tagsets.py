@@ -37,6 +37,11 @@ def GetTagOdds(root, tags):
 			continue
 		
 		for tag, node in base.tags.items():
+			# Check if this tag was part of our start
+			# Don't include it in the output if it's already present
+			if tag in tags:
+				continue
+
 			odds = (1.0 * node.count) / base.count
 			try:
 				odds = max(odds, result[tag])
