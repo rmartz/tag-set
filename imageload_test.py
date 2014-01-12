@@ -6,7 +6,7 @@ try:
 	f = open('./testing_dir.path')
 	dir = f.readline().rstrip()
 except IOError:
-	dir = '.'
+	dir = './img/'
 print dir
 
 pprint(GetImageList(dir))
