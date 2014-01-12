@@ -1,4 +1,5 @@
 from functions import PowerSet, OddManOut, MergeDictionary
+import operator
 
 class TagSet:
 	count = 0
@@ -71,5 +72,5 @@ class TagSet:
 				except KeyError:
 					pass
 				result[tag] = odds
-
-		return result
+		# Now that we're done, let's sort our output
+		return sorted(result.iteritems(), key=operator.itemgetter(1))
