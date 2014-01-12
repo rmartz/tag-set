@@ -1,9 +1,11 @@
 #!/usr/bin/python
 
-from tagsets import CreateTagSet, FlattenTagSet, GetTagOdds
+from tagsets import TagSet
 from pprint import pprint
 
-library = CreateTagSet( [
+library = TagSet()
+
+sample_tags = [ 
 	['mountain', 'trees', 'river'],
 	['mountain', 'trees'],
 	['mountain', 'trees'],
@@ -27,9 +29,13 @@ library = CreateTagSet( [
 	[],
 	[],
 	[]
-			] )
+]
 
-pprint( FlattenTagSet( library ) )
+for tags in sample_tags:
+	library.add(tags)
+
+
+pprint( library.flatten() )
 
 
 tests = [
@@ -38,8 +44,9 @@ tests = [
 	['snow'],
 	['trees','snow'],
 	['cars', 'city', 'road'],
+	['cars'],
 	['snow', 'invalid1', 'invalid2']
 ]
 for test in tests:
 	pprint(test)
-	pprint( GetTagOdds( library, test ) )
+	pprint( library.GetOdds(test ) )

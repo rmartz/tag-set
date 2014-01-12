@@ -8,71 +8,66 @@ class TagSet:
 		self.tags = {}
 		self.count = 0
 
-# Creates a new TagSet from a list of lists of tags ( [[a,b],[a],...])
-def CreateTagSet(tag_sets):
-	result = TagSet()
-	for tags in tag_sets:
+	# Adds a set of tags to the library and updates all relevant counts
+	def add(self, tags):
 		tags.sort()
-		TagSetAdd(result, tags)
-	return result
 
-# Flattens a TagSet into a dictionary of {path: count}
-def FlattenTagSet(node, path = []):
-	result = { ",".join(path): node.count}
-	for tag, subnode in node.tags.items():
-		MergeDictionary(result, FlattenTagSet(subnode, path + [tag]))
-	return result
+		powerset = PowerSet(tags)
+		for set in powerset:
+			node = self
+			for tag in set:
+				#print tag, id(node), node.count
+				try:
+					node = node.tags[tag]
+				except KeyError:
+					node.tags[tag] = TagSet()
+					#print("Creating entry {} ({}) in {}".format(tag, id(node.tags[tag]), id(node)))
+					node = node.tags[tag]
+			node.count += 1
 
-# This returns a list of suggested tags and their predicted relevance
-def GetTagOdds(root, tags):
-	tags.sort()
-	result = {}
-	
-	powerset = PowerSet(tags)
+	# Runs through the TagSet to find a given node.
+	def search(self, tags):
+		node = self
+		for tag in tags:
+			try:
+				node = node.tags[tag]
+			except KeyError:
+				raise LookupError()
+		return node
 
-	for set in powerset:
-		try:
-			base = TagSetSearch(root, set)
-		except LookupError:
-			continue
+
+	# Flattens the TagSet into a dictionary of {path: count}
+	def flatten(self, path = []):
+		result = { ",".join(path): self.count}
+		for tag, subnode in self.tags.items():
+			MergeDictionary(result, subnode.flatten(path + [tag]))
+		return result
+
+	# This returns a list of suggested tags and their predicted relevance
+	def GetOdds(self, tags):
+		tags.sort()
+		result = {}
 		
-		for tag, node in base.tags.items():
-			# Check if this tag was part of our start
-			# Don't include it in the output if it's already present
-			if tag in tags:
+		powerset = PowerSet(tags)
+
+		for set in powerset:
+			try:
+				base = self.search(set)
+			except LookupError:
 				continue
+			
+			for tag, node in base.tags.items():
+				# Check if this tag was part of our start
+				# Don't include it in the output if it's already present
+				if tag in tags:
+					continue
 
-			odds = (1.0 * node.count) / base.count
-			try:
-				odds = max(odds, result[tag])
-			except KeyError:
-				pass
-			result[tag] = odds
+				odds = (1.0 * node.count) / base.count
+				try:
+					odds = max(odds, result[tag])
+				except KeyError:
+					pass
+				result[tag] = odds
 
-	return result
-
-# Runs through the TagSet to find a given node.
-def TagSetSearch(root, tags):
-	node = root
-	for tag in tags:
-		try:
-			node = node.tags[tag]
-		except KeyError:
-			raise LookupError()
-	return node
-
-# Adds a set of tags to the library and updates all relevant counts
-def TagSetAdd(root, tags):
-	powerset = PowerSet(tags)
-	for set in powerset:
-		node = root
-		for tag in set:
-			#print tag, id(node), node.count
-			try:
-				node = node.tags[tag]
-			except KeyError:
-				node.tags[tag] = TagSet()
-				#print("Creating entry {} ({}) in {}".format(tag, id(node.tags[tag]), id(node)))
-				node = node.tags[tag]
-		node.count += 1
+		return result
 
