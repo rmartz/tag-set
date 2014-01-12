@@ -32,3 +32,4 @@ def OddManOut(start):
 def MergeDictionary(dest, src):
 	for key, value in src.items():
 		dest[key] = value
+	return dest
