@@ -3,7 +3,7 @@ from imageload import ImageLibrary, GetImageList
 from pprint import pprint
 
 try:
-	f = open('./imageload_test.dir')
+	f = open('./testing_dir.path')
 	dir = f.readline().rstrip()
 except IOError:
 	dir = '.'
