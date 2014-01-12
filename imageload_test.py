@@ -1,9 +1,12 @@
 #!/opt/local/bin/python
-from imageload import GetImageList, InitializeLibrary
+from imageload import ImageLibrary, GetImageList
 from pprint import pprint
 
-pprint(GetImageList('.'))
 
-library = InitializeLibrary('.')
+dir = '.'
+pprint(GetImageList(dir))
 
-pprint(library.flatten())
+library = ImageLibrary()
+library.load(dir)
+
+pprint(library.tagset.flatten())
