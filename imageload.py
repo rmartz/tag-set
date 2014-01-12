@@ -10,10 +10,11 @@ class Image:
 		self.path = path
 		
 		try:
-			self.tags = GetImageIPTCKeywords(path)
+			info = IPTCInfo(path)
+			self.tags = info.keywords
 		except Exception:
 			# The image doesn't have any IPTC data
-			self.tags = []
+			raise RuntimeError()
 
 
 class ImageLibrary:
@@ -30,11 +31,13 @@ class ImageLibrary:
 			self.addImage(file)
 
 	def addImage(self, filename):
-		image = Image(filename)
-	
+		try:
+			image = Image(filename)
+		except RuntimeError:
+			# Couldn't create the image
+			return
 		self.tagset.add(image.tags)
 		self.images.append(image)
-
 def GetImageList(dir):
 	p = re.compile('.*.jp[e]?g$')
 	fileList = []
@@ -44,9 +47,3 @@ def GetImageList(dir):
 				fileList.append(os.path.join(root,file))
 	return fileList
 
-
-def GetImageIPTCKeywords(filename):
-	info = IPTCInfo(filename)
-	if len(info.data) < 3: raise Exception(info.error)
-
-	return info.keywords
