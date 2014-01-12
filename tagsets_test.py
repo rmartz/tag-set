@@ -16,7 +16,7 @@ sample_tags = [
 	['city', 'road', 'cars'],
 	['city', 'road', 'cars'],
 	['mountain', 'road'],
-	[],
+	['zzzz','aaaa'],
 	[],
 	[],
 	[],
@@ -45,6 +45,7 @@ tests = [
 	['trees','snow'],
 	['cars', 'city', 'road'],
 	['cars'],
+	['zzzz'],
 	['snow', 'invalid1', 'invalid2']
 ]
 for test in tests:
