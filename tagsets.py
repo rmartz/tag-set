@@ -7,6 +7,7 @@ class TagSet:
 		self.tags = {}
 		self.count = 0
 
+# Creates a new TagSet from a list of lists of tags ( [[a,b],[a],...])
 def CreateTagSet(tag_sets):
 	result = TagSet()
 	for tags in tag_sets:
@@ -14,20 +15,19 @@ def CreateTagSet(tag_sets):
 		TagSetAdd(result, tags)
 	return result
 
+# Flattens a TagSet into a dictionary of {path: count}
 def FlattenTagSet(node, path = []):
-	key = ",".join(path)
-	tags = ",".join(node.tags)	
-
-	#print("=== '{}' (count: {}): {}".format(key, node.count, tags))
 	result = { ",".join(path): node.count}
 	for tag, subnode in node.tags.items():
 		MergeDictionary(result, FlattenTagSet(subnode, path + [tag]))
 	return result
 
+# Copies all the entries in src to dest, overwriting existing ones
 def MergeDictionary(dest, src):
 	for key, value in src.items():
 		dest[key] = value
 
+# This returns a list of suggested tags and their predicted relevance
 def GetTagOdds(root, tags):
 	tags.sort()
 	result = {}
@@ -49,7 +49,8 @@ def GetTagOdds(root, tags):
 			result[tag] = odds
 
 	return result
-	
+
+# Runs through the TagSet to find a given node.
 def TagSetSearch(root, tags):
 	node = root
 	for tag in tags:
@@ -59,6 +60,7 @@ def TagSetSearch(root, tags):
 			raise LookupError()
 	return node
 
+# Adds a set of tags to the library and updates all relevant counts
 def TagSetAdd(root, tags):
 	powerset = PowerSet(tags)
 	for set in powerset:
