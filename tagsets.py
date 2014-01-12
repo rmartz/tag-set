@@ -1,4 +1,4 @@
-from powerset import PowerSet
+from powerset import PowerSet, OddManOut
 from merge import MergeDictionary
 
 class TagSet:
@@ -12,27 +12,31 @@ class TagSet:
 	def add(self, tags):
 		tags.sort()
 
-		powerset = PowerSet(tags)
-		for set in powerset:
-			node = self
-			for tag in set:
-				#print tag, id(node), node.count
-				try:
-					node = node.tags[tag]
-				except KeyError:
-					node.tags[tag] = TagSet()
-					#print("Creating entry {} ({}) in {}".format(tag, id(node.tags[tag]), id(node)))
-					node = node.tags[tag]
-			node.count += 1
+		# For every tag we have, get the powerset of every other tag,
+		#  then create a reference to that tag.
+		for tag, remainder in OddManOut(tags):
+			powerset = PowerSet(remainder)
+			for set in powerset:
+				self.addTag(set, tag)
+		self.count += 1
+
+	def addTag(self, path, tag):
+		node = self.search(path+[tag], create = True)
+		node.count += 1
 
 	# Runs through the TagSet to find a given node.
-	def search(self, tags):
+	def search(self, tags, create = False):
 		node = self
 		for tag in tags:
 			try:
 				node = node.tags[tag]
 			except KeyError:
-				raise LookupError()
+				if create:
+					node.tags[tag] = TagSet()
+					#print("Creating entry {} ({}) in {}".format(tag, id(node.tags[tag]), id(node)))
+					node = node.tags[tag]
+				else:
+					raise LookupError()
 		return node
 
 
@@ -70,4 +74,3 @@ class TagSet:
 				result[tag] = odds
 
 		return result
-
