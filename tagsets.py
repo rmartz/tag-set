@@ -1,8 +1,5 @@
 from powerset import PowerSet
 
-#temp
-from pprint import pprint
-
 class TagSet:
 	count = 0
 	
@@ -22,11 +19,9 @@ def FlattenTagSet(node, path = []):
 	tags = ",".join(node.tags)	
 
 	#print("=== '{}' (count: {}): {}".format(key, node.count, tags))
-	
 	result = { ",".join(path): node.count}
 	for tag, subnode in node.tags.items():
 		MergeDictionary(result, FlattenTagSet(subnode, path + [tag]))
-		FlattenTagSet(subnode, path + [tag])
 	return result
 
 def MergeDictionary(dest, src):
@@ -50,8 +45,6 @@ def GetTagOdds(root, tags):
 			try:
 				odds = max(odds, result[tag])
 			except KeyError:
-				#print tag
-				#pprint(result.keys())
 				pass
 			result[tag] = odds
 
@@ -59,10 +52,7 @@ def GetTagOdds(root, tags):
 	
 def TagSetSearch(root, tags):
 	node = root
-	#pprint(tags)
 	for tag in tags:
-		#print tag
-		#pprint(node.tags.keys())
 		try:
 			node = node.tags[tag]
 		except KeyError:
@@ -72,11 +62,9 @@ def TagSetSearch(root, tags):
 def TagSetAdd(root, tags):
 	powerset = PowerSet(tags)
 	for set in powerset:
-		#pprint(set)
 		node = root
 		for tag in set:
 			#print tag, id(node), node.count
-			#pprint(node.tags.keys())
 			try:
 				node = node.tags[tag]
 			except KeyError:
