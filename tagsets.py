@@ -1,5 +1,4 @@
-from functions import PowerSet, OddManOut
-from merge import MergeDictionary
+from functions import PowerSet, OddManOut, MergeDictionary
 
 class TagSet:
 	count = 0

@@ -18,7 +18,8 @@ def __PowerSet(start):
 
 	return result
 
-
+# Creates a set for every item that has every element but itself.
+# (e.g, [a,b,c] => [[a, [b,c]], [b, [a,c]], [c, [a,b]]])
 def OddManOut(start):
 	result = []
 	for key in start:
@@ -26,3 +27,8 @@ def OddManOut(start):
 		value.remove(key)
 		result.append([key, value])
 	return result
+
+# Copies all the entries in src to dest, overwriting existing ones
+def MergeDictionary(dest, src):
+	for key, value in src.items():
+		dest[key] = value
