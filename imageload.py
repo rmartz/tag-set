@@ -10,7 +10,7 @@ class Image:
 		self.path = path
 		
 		try:
-			self.tags = GetImageIPTCKeywords(filename)
+			self.tags = GetImageIPTCKeywords(path)
 		except Exception:
 			# The image doesn't have any IPTC data
 			self.tags = []
