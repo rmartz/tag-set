@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/opt/local/bin/python
 
 from powerset import PowerSet
 from pprint import pprint

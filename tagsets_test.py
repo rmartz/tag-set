@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/opt/local/bin/python
 
 from tagsets import TagSet
 from pprint import pprint
