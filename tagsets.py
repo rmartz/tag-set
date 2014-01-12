@@ -1,4 +1,5 @@
 from powerset import PowerSet
+from merge import MergeDictionary
 
 class TagSet:
 	count = 0
@@ -21,11 +22,6 @@ def FlattenTagSet(node, path = []):
 	for tag, subnode in node.tags.items():
 		MergeDictionary(result, FlattenTagSet(subnode, path + [tag]))
 	return result
-
-# Copies all the entries in src to dest, overwriting existing ones
-def MergeDictionary(dest, src):
-	for key, value in src.items():
-		dest[key] = value
 
 # This returns a list of suggested tags and their predicted relevance
 def GetTagOdds(root, tags):
