@@ -5,10 +5,12 @@ import re, os, sys
 class Image:
 	tags = None
 	path = ''
+	library = None
 
-	def __init__(self, path):
+	def __init__(self, library, path):
 		self.path = path
-		
+		self.library = library
+
 		try:
 			info = IPTCInfo(path)
 			self.tags = info.keywords
@@ -16,6 +18,8 @@ class Image:
 			# The image doesn't have any IPTC data
 			raise RuntimeError()
 
+	def GetOdds(self):
+		return self.library.tagset.GetOdds(self.tags)
 
 class ImageLibrary:
 	tagset = None
@@ -32,7 +36,7 @@ class ImageLibrary:
 
 	def addImage(self, filename):
 		try:
-			image = Image(filename)
+			image = Image(self, filename)
 		except RuntimeError:
 			# Couldn't create the image
 			return
