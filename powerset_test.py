@@ -1,6 +1,6 @@
 #!/opt/local/bin/python
 
-from powerset import PowerSet
+from powerset import PowerSet, OddManOut
 from pprint import pprint
 
 pprint(PowerSet([ ]))
@@ -9,3 +9,7 @@ pprint(PowerSet([ 'a', 'b' ]))
 pprint(PowerSet([ 'a', 'b', 'c' ]))
 pprint(PowerSet([ 'a', 'b', 'c', 'd' ]))
 
+pprint(OddManOut(['a']))
+pprint(OddManOut(['a', 'b']))
+pprint(OddManOut(['a', 'b', 'c']))
+pprint(OddManOut(['a', 'b', 'c', 'd']))

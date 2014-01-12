@@ -17,3 +17,12 @@ def __PowerSet(start):
 	result += subsets
 
 	return result
+
+
+def OddManOut(start):
+	result = []
+	for key in start:
+		value = list(start)
+		value.remove(key)
+		result.append([key, value])
+	return result
