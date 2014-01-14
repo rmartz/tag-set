@@ -26,7 +26,7 @@ class ImageLibrary:
 	images = None
 
 	def __init__(self):
-		self.tagset = TagSet()
+		self.tagset = TagSet(CaseInsensitive = True)
 		self.images = []
 
 	def load(self, dir):
