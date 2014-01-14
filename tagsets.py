@@ -18,8 +18,7 @@ class TagSet:
 		# For every tag we have, get the powerset of every other tag,
 		#  then create a reference to that tag.
 		for tag, remainder in OddManOut(tags):
-			powerset = PowerSet(remainder)
-			for path in powerset:
+			for path in PowerSet(remainder):
 				self.addTagToPath(path, tag)
 
 		# Add a reference to the root
@@ -57,9 +56,7 @@ class TagSet:
 		tags = self.__cleanTags(tags)
 		result = {}
 		
-		powerset = PowerSet(tags)
-
-		for set in powerset:
+		for set in PowerSet(tags):
 			try:
 				base = self.search(set)
 			except LookupError:
