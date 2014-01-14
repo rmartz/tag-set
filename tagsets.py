@@ -80,7 +80,7 @@ class TagSet:
 		return sorted(result.iteritems(), key=operator.itemgetter(1))
 
 	def __cleanTags(self, tags):
-		# Todo:
+		# We want to:
 		# * Sort
 		# * Remove duplicates
 		# * (If configured:) Convert to lowercase
