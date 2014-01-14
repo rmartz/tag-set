@@ -1,28 +1,36 @@
 import re, os
 
 def PowerSet(start):
+	result = []
+	for set in PowerSetGenerator(start):
+		result.append(set)
+	return result
+
+def PowerSetGenerator(start):
 	# Copy the list before we modify it
 	arg = list(start)
 	return __PowerSet(arg)
 
 def __PowerSet(start):
 	if not start:
-		return [ [] ]
+		yield [ ]
+		return
 
 	first = start.pop(0)
 
-	subsets = __PowerSet(start)
+	for set in __PowerSet(start):
+		yield [first]+set
+		yield set
 
+def OddManOut(start):
 	result = []
-	for set in subsets:
-		result.append([first] + set)
-	result += subsets
-
+	for set in OddManOutGenerator(start):
+		result.append(set)
 	return result
 
 # Creates a set for every item that has every element but itself.
 # (e.g, [a,b,c] => [[a, [b,c]], [b, [a,c]], [c, [a,b]]])
-def OddManOut(start):
+def OddManOutGenerator(start):
 	for key in start:
 		value = list(start)
 		value.remove(key)
