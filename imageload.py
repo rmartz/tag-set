@@ -1,6 +1,6 @@
 from tagsets import TagSet
 from iptcinfo import IPTCInfo
-from fileload import GetFileList
+from functions import GetFileList
 
 class Image:
 	tags = None

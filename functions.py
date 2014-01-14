@@ -1,3 +1,5 @@
+import re, os
+
 def PowerSet(start):
 	# Copy the list before we modify it
 	arg = list(start)
@@ -33,3 +35,12 @@ def MergeDictionary(dest, src):
 	for key, value in src.items():
 		dest[key] = value
 	return dest
+
+# A generator that finds all files that match a regex in a given directory
+def GetFileList(dir, regex):
+	p = re.compile(regex)
+	for root, subFolders, files in os.walk(dir):
+		for file in files:
+			if p.match(file):
+				yield os.path.join(root,file)
+
