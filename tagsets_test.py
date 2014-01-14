@@ -3,14 +3,13 @@
 from tagsets import TagSet
 from pprint import pprint
 
-library = TagSet()
 
 sample_tags = [ 
 	['mountain', 'trees', 'river'],
-	['mountain', 'trees'],
-	['mountain', 'trees'],
+	['Mountain', 'trees'],
+	['moUntain', 'trees'],
 	['mountain', 'snow', 'river'],
-	['forest', 'trees', 'snow'],
+	['forest', 'Trees', 'snow'],
 	['trees', 'snow'],
 	['city', 'road', 'cars'],
 	['city', 'road', 'cars'],
@@ -31,6 +30,7 @@ sample_tags = [
 	[]
 ]
 
+library = TagSet(CaseInsensitive = True)
 for tags in sample_tags:
 	library.add(tags)
 

@@ -3,24 +3,29 @@ import operator
 
 class TagSet:
 	count = 0
+	tags = None
+	CaseInsensitive = False
 	
-	def __init__(self):
+	def __init__(self, CaseInsensitive = False):
 		self.tags = {}
 		self.count = 0
+		self.CaseInsensitive = CaseInsensitive
 
 	# Adds a set of tags to the library and updates all relevant counts
 	def add(self, tags):
-		tags.sort()
+		tags = self.__cleanTags(tags)
 
 		# For every tag we have, get the powerset of every other tag,
 		#  then create a reference to that tag.
 		for tag, remainder in OddManOut(tags):
 			powerset = PowerSet(remainder)
-			for set in powerset:
-				self.addTag(set, tag)
+			for path in powerset:
+				self.addTagToPath(path, tag)
+
+		# Add a reference to the root
 		self.count += 1
 
-	def addTag(self, path, tag):
+	def addTagToPath(self, path, tag):
 		node = self.search(path+[tag], create = True)
 		node.count += 1
 
@@ -49,7 +54,7 @@ class TagSet:
 
 	# This returns a list of suggested tags and their predicted relevance
 	def GetOdds(self, tags):
-		tags.sort()
+		tags = self.__cleanTags(tags)
 		result = {}
 		
 		powerset = PowerSet(tags)
@@ -68,9 +73,18 @@ class TagSet:
 
 				odds = (1.0 * node.count) / base.count
 				try:
-					odds = max(odds, result[tag])
+					result[tag] += odds
 				except KeyError:
-					pass
-				result[tag] = odds
+					result[tag] = odds
 		# Now that we're done, let's sort our output
 		return sorted(result.iteritems(), key=operator.itemgetter(1))
+
+	def __cleanTags(self, tags):
+		# Todo:
+		# * Sort
+		# * Remove duplicates
+		# * (If configured:) Convert to lowercase
+		if self.CaseInsensitive:
+			tags = [x.lower() for x in tags]
+		
+		return list(set(tags))
