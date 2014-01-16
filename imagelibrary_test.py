@@ -1,5 +1,5 @@
 #!/opt/local/bin/python
-from imageload import ImageLibrary
+from imagelibrary import ImageLibrary
 from pprint import pprint
 from random import choice
 
