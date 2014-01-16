@@ -25,12 +25,29 @@ class ImageLibrary:
 	tagset = None
 	images = None
 
-	def __init__(self):
-		self.tagset = TagSet(CaseInsensitive = True)
-		self.images = []
+	# List of keywords that will be excluded from suggestions
+	BlacklistedTags = []
 
-	def load(self, dir):
-		for file in GetFileList(dir, '.*.jp[e]?g$'):
+	# List of keywords not to be used for predictions
+	IgnoredTags = []
+
+	def __init__(self, IgnoreCase = True,
+		     BlacklistedTags = None, IgnoredTags = None,
+		     Directories = [], Extensions = ['jpeg', 'jpg']):
+		self.images = []
+		self.BlacklistedTags = ([] if BlacklistedTags is None
+		                        else BlacklistedTags)
+		self.IgnoredTags = ([] if IgnoredTags is None
+		                    else IgnoredTags)
+
+		self.tagset = TagSet(CaseInsensitive = IgnoreCase)
+
+		regex = '.*.({})$'.format("|".join(Extensions))
+		for dir in Directories:
+			self.addDirectory(dir, regex)
+
+	def addDirectory(self, dir, regex = '.*.jp[e]?g$'):
+		for file in GetFileList(dir, regex):
 			self.addImage(file)
 
 	def addImage(self, filename):

@@ -11,7 +11,7 @@ except IOError:
 print dir
 
 library = ImageLibrary()
-library.load(dir)
+library.addDirectory(dir)
 
 pprint(library.tagset.flatten())
 
