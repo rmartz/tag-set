@@ -4,12 +4,10 @@ import operator
 class TagSet:
 	count = 0
 	tags = None
-	CaseInsensitive = False
 	
-	def __init__(self, CaseInsensitive = False):
+	def __init__(self):
 		self.tags = {}
 		self.count = 0
-		self.CaseInsensitive = CaseInsensitive
 
 	# Adds a set of tags to the library and updates all relevant counts
 	def add(self, tags):
@@ -80,8 +78,5 @@ class TagSet:
 		# We want to:
 		# * Sort
 		# * Remove duplicates
-		# * (If configured:) Convert to lowercase
-		if self.CaseInsensitive:
-			tags = [x.lower() for x in tags]
 		
 		return list(set(tags))
