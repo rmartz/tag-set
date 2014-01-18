@@ -1,6 +1,7 @@
 from tagsets import TagSet
 from iptcinfo import IPTCInfo
 from functions import GetFileList
+from json import JSONEncoder
 
 class Image:
 	tags = None
@@ -56,6 +57,13 @@ class ImageLibrary:
 		for dir in Directories:
 			self.addDirectory(dir, regex)
 
+	@staticmethod
+	def fromJSON(path):
+		pass
+
+	def toJSON():
+		return ''
+
 	def addDirectory(self, dir, regex = '.*.jp[e]?g$'):
 		for file in GetFileList(dir, regex):
 			self.addImage(file)
@@ -85,5 +93,4 @@ class ImageLibrary:
 		self.tagset.add(tags)
 		
 		self.images.append(image)
-
 
