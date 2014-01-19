@@ -87,7 +87,8 @@ class TagSet:
 				except KeyError:
 					result[tag] = value
 		# Now that we're done, let's sort our output
-		return sorted(result.iteritems(), key=operator.itemgetter(1))
+		return sorted(result.iteritems(), key=operator.itemgetter(1),
+		              reverse = True)
 
 	def __cleanTags(self, tags):
 		# We want to:
