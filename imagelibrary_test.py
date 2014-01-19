@@ -16,7 +16,14 @@ library.addDirectory(dir)
 pprint(library.tagset.flatten())
 
 # Test a random image
-image = choice(library.images)
-pprint(image.tags)
-pprint(image.GetOdds())
+try:
+	while True:
+		image = choice(library.images)
+		odds = image.GetOdds()
+		pprint(image.tags)
+		pprint(odds[:10])
+
+		raw_input("Press Enter to continue...")
+except KeyboardInterrupt:
+	print "Exiting."
 
