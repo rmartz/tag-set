@@ -49,28 +49,43 @@ class TagSet:
 			MergeDictionary(result, subnode.flatten(path + [tag]))
 		return result
 
+	# This returns the signifiance of our node compared to similar tags
+	def GetSignificance(self, tags):
+		# Find the tags that we have children for
+		tags = tags & set(self.tags.keys())
+		if tags:
+			maxCount = max([self.tags[key] for key in tags ]).count
+			return 1 - (maxCount / self.count)
+		else:
+			return 1
+	
 	# This returns a list of suggested tags and their predicted relevance
 	def GetOdds(self, tags):
 		tags = self.__cleanTags(tags)
 		result = {}
 		
-		for set in PowerSet(tags):
+		for subset in PowerSet(tags):
+			subset = set(subset)
 			try:
-				base = self.search(set)
+				base = self.search(subset)
 			except LookupError:
 				continue
 			
+			remainder = tags - subset
+			significance = base.GetSignificance(remainder)
+	
 			for tag, node in base.tags.items():
 				# Check if this tag was part of our start
 				# Don't include it in the output if it's already present
 				if tag in tags:
 					continue
 
-				odds = (1.0 * node.count) / base.count
+				value = (1.0 * significance
+				          * node.count / base.count)
 				try:
-					result[tag] += odds
+					result[tag] += value
 				except KeyError:
-					result[tag] = odds
+					result[tag] = value
 		# Now that we're done, let's sort our output
 		return sorted(result.iteritems(), key=operator.itemgetter(1))
 
@@ -79,4 +94,4 @@ class TagSet:
 		# * Sort
 		# * Remove duplicates
 		
-		return list(set(tags))
+		return set(tags)
