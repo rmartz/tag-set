@@ -71,8 +71,8 @@ class ImageLibrary:
 	# This creates a list of tags suitable for use in predictions
 	def formatTags(self, tags):
 		
-		if self.CaseSensitive:
-			tags = [str.toLower() for str in tags]
+		if not self.CaseSensitive:
+			tags = [str.lower() for str in tags]
 		
 		# Remove ignored tags
 		# TODO
