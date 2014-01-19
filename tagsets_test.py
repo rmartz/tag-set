@@ -6,10 +6,10 @@ from pprint import pprint
 
 sample_tags = [ 
 	['mountain', 'trees', 'river'],
-	['Mountain', 'trees'],
-	['moUntain', 'trees'],
+	['mountain', 'trees'],
+	['mountain', 'trees'],
 	['mountain', 'snow', 'river'],
-	['forest', 'Trees', 'snow'],
+	['forest', 'trees', 'snow'],
 	['trees', 'snow'],
 	['city', 'road', 'cars'],
 	['city', 'road', 'cars'],
@@ -30,7 +30,7 @@ sample_tags = [
 	[]
 ]
 
-library = TagSet(CaseInsensitive = True)
+library = TagSet()
 for tags in sample_tags:
 	library.add(tags)
 
