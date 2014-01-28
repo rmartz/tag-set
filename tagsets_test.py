@@ -19,8 +19,10 @@ sample_tags = [
 	[],
 	[],
 	[],
-	[],
-	[],
+	['Multikey1', 'Multikey2', 'Multivalue', 'Multisubvalue'],
+	['Multikey1', 'Multikey2', 'Multivalue'],
+	['Singlekey', 'Singlevalue', 'Singlesubvalue'],
+	['Singlekey', 'Singlevalue'],
 	[],
 	[],
 	[],
@@ -46,7 +48,9 @@ tests = [
 	['cars', 'city', 'road'],
 	['cars'],
 	['zzzz'],
-	['snow', 'invalid1', 'invalid2']
+	['snow', 'invalid1', 'invalid2'],
+	['Multikey1', 'Multikey2'],
+	['Singlekey']
 ]
 for test in tests:
 	pprint(test)
