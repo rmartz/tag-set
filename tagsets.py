@@ -82,10 +82,7 @@ class TagSet:
 
 				value = (1.0 * significance
 				          * node.count / base.count)
-				try:
-					result[tag] += value
-				except KeyError:
-					result[tag] = value
+				result[tag] = result.get(tag, 0) + value
 		# Now that we're done, let's sort our output
 		return sorted(result.iteritems(), key=operator.itemgetter(1),
 		              reverse = True)
